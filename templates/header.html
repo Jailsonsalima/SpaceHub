@@ -1,0 +1,18 @@
+{% load static %}
+<header>
+  <div class="header-menu">
+    <img class="logo" src="{% static 'img/logo.png' %}" alt="SpaceHub"/>
+    <ul>
+      <li><a href="{% url 'home' %}">INÍCIO</a></li>
+      <li><a href="{% url 'quem_somos' %}">A SPACEHUB</a></li>
+      <li><a href="#">SALAS COMERCIAIS</a></li>
+      <li><a href="#">ESPAÇOS DE TRABALHO</a></li>
+      <li><a href="{% url 'contato' %}">FALE CONOSCO</a></li>
+    </ul>
+    <button class="login-button">
+      <a href="{% url 'login' %}">
+        <img src="{% static 'img/user-svg.svg' %}" alt=""/>LOGIN
+      </a>
+    </button>
+  </div>
+</header>

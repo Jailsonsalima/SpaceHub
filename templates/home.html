@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+  <div class="banner">
+    <h1>As Melhores Salas Comerciais de Belém</h1>
+    <p>
+      Encontre as melhores salas para coworking da região metropolitana de
+      Belém
+    </p>
+    <form id="searchForm">
+      <input type="text" id="searchInput" placeholder="Pesquisar..." />
+      <button type="submit">BUSCAR</button>
+    </form>
+  </div>
+  <!-- #section de icones beneficios -->
+  <div class="icones-container">
+    <div class="box">
+      <img src="{% static 'img/office.svg' %}" alt="Ícone Prédio"/>
+      <h2>Salas Mobiliadas com Equipe</h2>
+      <p>Espaços prontos para uso com móveis e serviços como recepção, limpeza e suporte.</p>
+    </div>
+    <div class="box">
+      <img src="{% static 'img/price.svg' %}" alt="Ícone Prédio"/>
+      <h2>Simulador de Preços</h2>
+      <p>Calcula valores conforme metragem, tempo de contrato e oferece planos flexíveis.</p>
+    </div>
+    <div class="box">
+      <img src="{% static 'img/calendar.svg' %}" alt="Ícone Prédio"/>
+      <h2>Agendamento Online</h2>
+      <p>Reservas rápidas com confirmação automática e atendimento via chat em tempo real.</p>
+    </div>
+  </div>
+  <!-- seção de espaços de trabalho card -->
+  <div class="container-principal">
+    <h2 class="titulo-principal">Encontre seu Espaço de Trabalho Perfeito</h2>
+    <p class="texto-principal">
+      Na SpaceHub oferecemos diversas opções para que você possa encontrar o
+      espaço perfeito para o seu negócio e atender suas necessidades
+    </p>
+    <div class="cards">
+      <div class="card-single">
+        <div class="media">
+          <img src="{% static 'img/offices (1).png' %}" alt="Escritório com pessoas para sinalizar um serviço de escritório compartilhado"/>
+        </div>
+        <div class="content">
+          <h3 class="title">Salas Flex</h3>
+          <p class="descricao">
+            Espaço compartilhado por turno, ideal para profissionais autônomos
+            que precisam de um ambiente funcional por algumas horas.
+          </p>
+          <a class="btn" href="#"> Saber Mais </a>
+        </div>
+      </div>
+      <div class="card-single">
+        <div class="media">
+          <img src="{% static 'img/offices (2).png' %}" alt="Escritório com pessoas para sinalizar um serviço de escritório compartilhado"/>
+        </div>
+        <div class="content">
+          <h3 class="title">Studio Pro</h3>
+          <p class="descricao">
+            Escritório privativo mobiliado e serviços inclusos, solução
+            perfeita para pequenas equipes ou empresas em crescimento.
+          </p>
+          <a class="btn" href="#"> Saber Mais </a>
+        </div>
+      </div>
+      <div class="card-single">
+        <div class="media">
+          <img src="{% static 'img/offices (3).png' %}" alt="Escritório com pessoas para sinalizar um serviço de escritório compartilhado"/>
+        </div>
+        <div class="content">
+          <h3 class="title">Corporate Floor</h3>
+          <p class="descricao">
+            Andar corporativo com infraestrutura completa, indicado a médias e
+            grandes empresas que demandam exclusividade e suporte completo.
+          </p>
+          <a class="btn" href="#"> Saber Mais </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- --------------------------salas comerciais---------------------------- -->
+  <div class="container-principal salas-comerciais">
+    <div class="ver-botao">
+      <a class="icon-cent" href="#">
+        <img src="{% static 'img/arrow-sm-right-svgrepo-com.svg' %}" alt="icon de seta"/>Ver Todas
+      </a>
+    </div>
+    <h2 class="titulo-principal">Salas Comerciais</h2>
+    <p class="texto-principal">
+      Explore todas as nossos espaços disponíveis e descubra o conforto
+      moderno em cada detalhe das salas e espaços corporativos disponíveis na
+      SpaceHub.
+    </p>
+    <div class="cards">
+      <div class="card-single">
+        <div class="media">
+          <span class="flag" aria-hidden="true">Flex</span>
+          <img src="{% static 'img/Sala-Vertice1.png' %}" alt="Fachada elegante do apartamento com varanda e vista"/>
+          <div class="preco-destaque">R$ 10.000</div>
+        </div>
+        <div class="content">
+          <h3 class="title">Sala Vértice</h3>
+          <p class="descricao">
+            Localização premium, perto do metrô, varanda ampla e acabamento de
+            alto padrão. 120 m², 2 vagas de garagem.
+          </p>
+          <a class="btn" href="#"> Ver detalhes </a>
+        </div>
+      </div>
+      <div class="card-single">
+        <div class="media">
+          <span class="flag" aria-hidden="true">Studio Pro</span>
+          <img src="{% static 'img/Sala-Anchor1.png' %}" alt="Fachada elegante do apartamento com varanda e vista"/>
+          <div class="preco-destaque">R$ 30.000</div>
+        </div>
+        <div class="content">
+          <h3 class="title">Sala Anchor Moderna</h3>
+          <p class="descricao">
+            Localização premium, perto do metrô, varanda ampla e acabamento de
+            alto padrão. 120 m², 2 vagas de garagem.
+          </p>
+          <a class="btn" href="#"> Ver detalhes </a>
+        </div>
+      </div>
+      <div class="card-single">
+        <div class="media">
+          <span class="flag" aria-hidden="true">Corporate Floor</span>
+          <img src="{% static 'img/estacao-criativa1.png' %}" alt="Fachada elegante do apartamento com varanda e vista"/>
+          <div class="preco-destaque">R$ 50.000</div>
+        </div>
+        <div class="content">
+          <h3 class="title">Estação Criativa Tower</h3>
+          <p class="descricao">
+            Localização premium, perto do metrô, varanda ampla e acabamento de
+            alto padrão. 120 m², 2 vagas de garagem.
+          </p>
+          <a class="btn" href="#"> Ver detalhes </a>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  
+{% endblock %}

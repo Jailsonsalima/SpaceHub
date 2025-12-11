@@ -1,0 +1,54 @@
+{% load static %}
+<footer>
+  {% include 'especialistas.html' %}
+  <div class="container-principal footerdiv">
+    <div class="cards">
+      <div class="box card foot">
+        <img id="logo-foot" src="{% static 'img/logo.png' %}" alt="SpaceHub"/>
+        <p style="text-align: justify; color: white">
+          A SpaceHub é uma empresa fictícia criada como parte da disciplina de Dev. de Sist. Web na UFRA.
+          Ela atua no ramo de aluguel de salas corporativas compartilhadas.
+        </p>
+      </div>
+
+      <div class="box card foot">
+        <h3>Navegação Principal</h3>
+        <ul>
+          <li><a href="{% url 'home' %}">Início</a></li>
+          <li><a href="{% url 'quem_somos' %}">Quem Somos</a></li>
+          <li><a href="#">Salas Comerciais</a></li>
+          <li><a href="{% url 'contato' %}">Contato</a></li>
+        </ul>
+      </div>
+
+      <div class="box card foot">
+        <h3>Informações e Suporte</h3>
+        <ul>
+          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="#">Termos de Uso</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Suporte Técnico</a></li>
+        </ul>
+      </div>
+
+      <div class="box card foot">
+        <h3>Conecte-se Conosco</h3>
+        <ul>
+          <li><a href="#" class="icon-cent"><img src="{% static 'img/phone.svg' %}" alt=""/> (91) 98084-9759</a></li>
+          <li><a href="#" class="icon-cent"><img src="{% static 'img/email.svg' %}" alt=""/> spacehub@email.com</a></li>
+          <li style="display:flex; gap:10px;">
+            <a href="#"><img src="{% static 'img/instagram-1-svgrepo-com.svg' %}" alt="Instagram"/></a>
+            <a href="#"><img src="{% static 'img/whatsapp-svgrepo-com.svg' %}" alt="WhatsApp"/></a>
+            <a href="#"><img src="{% static 'img/linkedin-1-svgrepo-com.svg' %}" alt="LinkedIn"/></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="rodape">
+    <hr style="border:none; height:1px; background-color:#dbdbdb; width:100%;">
+    <p>&copy; <span id="ano"></span> SpaceHub. Todos os direitos reservados.</p>
+    <p>Desenvolvido por Alunos do ICIBE, LC.</p>
+  </div>
+</footer>
