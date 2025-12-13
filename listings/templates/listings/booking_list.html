@@ -19,6 +19,12 @@
           <h3>{{ booking.room.title }}</h3>
           <p><strong>Início:</strong> {{ booking.start_date }}</p>
           <p><strong>Fim:</strong> {{ booking.end_date }}</p>
+          <!-- Valor por hora -->
+          <p><strong>Preço por hora:</strong> R$ {{ booking.room.price_per_hour }}</p>
+
+          <!-- Valor total -->
+          <p><strong>Valor total:</strong>R$ {{ booking.total_price|floatformat:2 }}</p>
+
           <span class="status {{ booking.status }}">{{ booking.status|title }}</span>
         </div>
       </div>
@@ -41,6 +47,11 @@
           <p><strong>Cliente:</strong> {{ booking.client.username }}</p>
           <p><strong>Início:</strong> {{ booking.start_date }}</p>
           <p><strong>Fim:</strong> {{ booking.end_date }}</p>
+          <!-- Valor por hora -->
+          <p><strong>Preço por hora:</strong> R$ {{ booking.room.price_per_hour }}</p>
+
+          <!-- Valor total -->
+          <p><strong>Valor total:</strong>R$ {{ booking.total_price|floatformat:2 }}</p>
           <span class="status {{ booking.status }}">{{ booking.status|title }}</span>
 
           {% if booking.status == 'pending' %}

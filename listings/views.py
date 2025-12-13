@@ -7,8 +7,8 @@ from .forms import RoomForm
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.contrib import messages
-from django.utils.dateparse import parse_datetime
-
+from datetime import datetime
+from decimal import Decimal
 
 
 def room_list(request):
@@ -33,24 +33,65 @@ def room_list(request):
     return render(request, 'listings/room_list.html', {'rooms': rooms})
 
 
+from datetime import datetime
+from django.utils import timezone
+
 def room_detail(request, room_id):
     room = get_object_or_404(Room, id=room_id)
 
-    # Se o usuário clicar em reservar
     if request.method == 'POST' and request.user.is_authenticated:
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
+        start_date_str = request.POST.get('start_date')
+        hours_str = request.POST.get('hours')
 
-        booking = Booking.objects.create(
-            client=request.user,
-            room=room,
-            start_date=parse_datetime(request.POST.get('start_date')),
-            end_date=parse_datetime(request.POST.get('start_date' + timezone.timedelta(hours=1))),  # exemplo: 1h
-            status='pending'
-        )
-        return redirect('room_list')  # ou uma página de confirmação
+        if start_date_str and hours_str:
+            try:
+                hours = int(hours_str)
+                start_date_naive = datetime.strptime(start_date_str, "%Y-%m-%dT%H:%M")
+
+                # transforma em datetime aware
+                start_date = timezone.make_aware(start_date_naive)
+
+                # validação: não permitir reserva no passado
+                if start_date < timezone.now():
+                    messages.error(request, "Você não pode reservar uma sala em data/hora anterior à atual.")
+                    return redirect('room_detail', room_id=room.id)
+
+                if hours <= 0:
+                    messages.error(request, "A duração da reserva deve ser maior que zero.")
+                    return redirect('room_detail', room_id=room.id)
+
+                end_date = start_date + timezone.timedelta(hours=hours)
+
+                # validação: impedir sobreposição
+                overlap = Booking.objects.filter(
+                    room=room,
+                    status='approved',
+                    start_date__lt=end_date,
+                    end_date__gt=start_date
+                ).exists()
+
+                if overlap:
+                    messages.error(request, "Este período já está reservado para esta sala.")
+                    return redirect('room_detail', room_id=room.id)
+                # cálculo do preço total
+                total_price = room.price_per_hour * hours
+
+                Booking.objects.create(
+                    client=request.user,
+                    room=room,
+                    start_date=start_date,
+                    end_date=end_date,
+                    status='pending'
+                )
+                messages.success(request, "Reserva criada com sucesso! Aguarde aprovação.")
+                return redirect('room_list')
+
+            except ValueError:
+                messages.error(request, "Formato inválido. Verifique os campos e tente novamente.")
+                return redirect('room_detail', room_id=room.id)
 
     return render(request, 'listings/room_detail.html', {'room': room})
+
 
 @login_required
 def create_room(request):
@@ -102,9 +143,17 @@ def delete_room(request, room_id):
 def booking_list(request):
     # Reservas feitas pelo usuário
     my_bookings = Booking.objects.filter(client=request.user)
+    for b in my_bookings:
+        duration = Decimal((b.end_date - b.start_date).total_seconds()) / Decimal(3600)
+        b.total_price = b.room.price_per_hour * duration
+
 
     # Reservas recebidas (salas que ele cadastrou)
     received_bookings = Booking.objects.filter(room__owner=request.user)
+    for b in received_bookings:
+        duration = Decimal((b.end_date - b.start_date).total_seconds()) / Decimal(3600)
+        b.total_price = b.room.price_per_hour * duration
+
 
     return render(request, 'listings/booking_list.html', {
         'my_bookings': my_bookings,

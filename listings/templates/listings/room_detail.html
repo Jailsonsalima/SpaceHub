@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<div  class="container-principal" style="padding-top: 100px;">
+<div class="container-principal" style="padding-top: 100px;">
   <h2>{{ room.title }}</h2>
   {% if room.image %}
     <img src="{{ room.image.url }}" alt="{{ room.nome }}">
@@ -10,28 +10,47 @@
   {% endif %}
 
   <p>{{ room.description }}</p>
-  <p>Preço por hora: R$ {{ room.price_per_hour }}</p>
+  <p><strong>Preço por hora:</strong> R$ {{ room.price_per_hour }}</p>
   <p>Disponível: {{ room.available|yesno:"Sim,Não" }}</p>
+  <p><strong>Valor total:</strong> R$ <span id="totalPrice">0.00</span></p>
 
-  <!-- Botão de reserva só aparece se o usuário estiver logado -->
   {% if user.is_authenticated %}
-    {% if user.is_authenticated %}
   <form method="post">
     {% csrf_token %}
     <label for="start_date">Data de início:</label>
     <input type="datetime-local" id="start_date" name="start_date" required>
 
-    <label for="end_date">Data de término:</label>
-    <input type="datetime-local" id="end_date" name="end_date" required>
+    <label for="hours">Quantidade de horas:</label>
+    <input type="number" id="hours" name="hours" min="1" required>
 
     <button type="submit" class="btn">Reservar</button>
+    
   </form>
-{% else %}
-  <p><a href="{% url 'login' %}" class="btn">Faça login</a> para reservar esta sala.</p>
-{% endif %}
 
+  {% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="alert {{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
   {% else %}
-    <p><a href="{% url 'login' %}"  class="btn">Faça login</a> para reservar esta sala.</p>
+    <p><a href="{% url 'login' %}" class="btn">Faça login</a> para reservar esta sala.</p>
   {% endif %}
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Converter para número (substitui vírgula por ponto se necessário)
+    const pricePerHour = parseFloat("{{ room.price_per_hour }}".replace(",", "."));
+    const hoursInput = document.getElementById('hours');
+    const totalPriceSpan = document.getElementById('totalPrice');
+
+    hoursInput.addEventListener('input', function() {
+      const hours = parseInt(hoursInput.value) || 0;
+      const totalPrice = (pricePerHour * hours).toFixed(2);
+      totalPriceSpan.textContent = totalPrice;
+    });
+  });
+</script>
 {% endblock %}
