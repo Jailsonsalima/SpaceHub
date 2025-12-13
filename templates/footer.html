@@ -1,6 +1,8 @@
 {% load static %}
 <footer>
-  {% include 'especialistas.html' %}
+  {% if request.resolver_match.url_name == 'home' or request.resolver_match.url_name == 'contato' or request.resolver_match.url_name == 'quem_somos'%}
+    {% include 'especialistas.html' %}
+  {% endif %}
   <div class="container-principal footerdiv">
     <div class="cards">
       <div class="box card foot">

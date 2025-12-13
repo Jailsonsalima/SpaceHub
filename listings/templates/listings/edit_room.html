@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div  class="container-principal" style="padding-top: 100px;">
+  <h2>Editar Sala</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar Alterações</button>
+  </form>
+</div>
+{% endblock %}

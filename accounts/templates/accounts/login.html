@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+<div class="container">
+  <div class="form-container sign-in-container">
+    <form method="post">
+      {% csrf_token %}
+      <h1>Fazer Login</h1>
+      {{ form.as_p }}   <!-- Renderiza os campos do CustomAuthenticationForm -->
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

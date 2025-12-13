@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+<div class="container-dashboard" style="padding-top: 100px;">
+  <h2>Minhas Reservas</h2>
+
+  <div class="card-grid">
+    {% for booking in my_bookings %}
+      <div class="card-dsashboard">
+        {% if booking.room.image %}
+          <img src="{{ booking.room.image.url }}" alt="{{ booking.room.title }}">
+        {% else %}
+          <img src="{% static 'img/default_room.jpg' %}" alt="Imagem padrão">
+        {% endif %}
+        <div class="card-body">
+          <h3>{{ booking.room.title }}</h3>
+          <p><strong>Início:</strong> {{ booking.start_date }}</p>
+          <p><strong>Fim:</strong> {{ booking.end_date }}</p>
+          <span class="status {{ booking.status }}">{{ booking.status|title }}</span>
+        </div>
+      </div>
+    {% empty %}
+      <p>Você não possui reservas feitas.</p>
+    {% endfor %}
+  </div>
+
+  <h2>Reservas Recebidas (Meus Anúncios)</h2>
+  <div class="card-grid">
+    {% for booking in received_bookings %}
+      <div class="card-dsashboard">
+        {% if booking.room.image %}
+          <img src="{{ booking.room.image.url }}" alt="{{ booking.room.title }}">
+        {% else %}
+          <img src="{% static 'img/default_room.jpg' %}" alt="Imagem padrão">
+        {% endif %}
+        <div class="card-body">
+          <h3>{{ booking.room.title }}</h3>
+          <p><strong>Cliente:</strong> {{ booking.client.username }}</p>
+          <p><strong>Início:</strong> {{ booking.start_date }}</p>
+          <p><strong>Fim:</strong> {{ booking.end_date }}</p>
+          <span class="status {{ booking.status }}">{{ booking.status|title }}</span>
+
+          {% if booking.status == 'pending' %}
+            <div class="card-actions">
+              <form method="post" action="{% url 'approve_booking' booking.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-sm">Aprovar</button>
+              </form>
+              <form method="post" action="{% url 'reject_booking' booking.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Rejeitar</button>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <p>Nenhuma reserva recebida.</p>
+    {% endfor %}
+  </div>
+
+  {% if messages %}
+    <div class="messages">
+      {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

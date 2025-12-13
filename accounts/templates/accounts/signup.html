@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+
+<div class="container">
+  <div class="form-container sign-up-container">
+    <form method="post">
+      {% csrf_token %}
+      <h1>Criar Conta</h1>
+      {{ form.as_p }}   <!-- Renderiza os campos do CustomUserCreationForm -->
+      <button type="submit">Criar</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

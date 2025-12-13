@@ -38,9 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'accounts.apps.AccountsConfig',
+    'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
-    #'listings.apps.ListingsConfig',
+    'listings.apps.ListingsConfig',
     #'payments.apps.PaymentsConfig',
 ]
 
@@ -107,9 +107,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -124,3 +124,7 @@ STATIC_URL = 'static/'
 PAGSEGURO_EMAIL = "seu_email@dominio.com"
 PAGSEGURO_TOKEN = "seu_token_de_integracao"
 PAGSEGURO_SANDBOX = True  # True para ambiente de testes
+
+AUTH_USER_MODEL = 'accounts.User'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+<div class="container-dashboard" style="padding-top: 100px;">
+  <h1>Dashboard</h1>
+
+  <!-- Minhas Salas -->
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h2>Meus Anúncios</h2>
+      <a href="{% url 'create_room' %}" class="btn btn-primary">+ Nova Sala</a>
+    </div>
+    <div class="card-grid">
+      {% for room in my_rooms %}
+        <div class="card-dashboard">
+          {% if room.image %}
+            <img src="{{ room.image.url }}" alt="{{ room.title }}" class="room-img">
+          {% else %}
+            <img src="{% static 'img/default_room.jpg' %}" alt="Imagem padrão" class="room-img">
+          {% endif %}
+          <div class="card-body">
+            <h3>{{ room.title }}</h3>
+            <p>R$ {{ room.price_per_hour }} / hora</p>
+            <div class="card-actions">
+              <a href="{% url 'edit_room' room.id %}" class="btn btn-sm btn-warning">Editar</a>
+              <a href="{% url 'delete_room' room.id %}" class="btn btn-sm btn-danger">Excluir</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>Você ainda não cadastrou nenhuma sala.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Minhas Reservas -->
+  <section class="dashboard-section">
+    <h2>Minhas Reservas</h2>
+    <div class="card-grid">
+      {% for booking in my_bookings %}
+        <div class="card-dashboard">
+          {% if booking.room.image %}
+            <img src="{{ booking.room.image.url }}" alt="{{ booking.room.title }}" class="room-img">
+          {% endif %}
+          <div class="card-body">
+            <h3>{{ booking.room.title }}</h3>
+            <p>Início: {{ booking.start_date }}</p>
+            <p>Fim: {{ booking.end_date }}</p>
+            <span class="status {{ booking.status }}">{{ booking.status|title }}</span>
+          </div>
+        </div>
+      {% empty %}
+        <p>Você não possui reservas feitas.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- Reservas Recebidas -->
+  <section class="dashboard-section">
+    <h2>Reservas Recebidas</h2>
+    <div class="card-grid">
+      {% for booking in received_bookings %}
+        <div class="card-dashboard">
+          {% if booking.room.image %}
+            <img src="{{ booking.room.image.url }}" alt="{{ booking.room.title }}" class="room-img">
+          {% endif %}
+          <div class="card-body">
+            <h3>{{ booking.room.title }}</h3>
+            <p>Cliente: {{ booking.client.username }}</p>
+            <p>Início: {{ booking.start_date }}</p>
+            <p>Fim: {{ booking.end_date }}</p>
+            <span class="status {{ booking.status }}">{{ booking.status|title }}</span>
+            {% if booking.status == 'pending' %}
+              <a href="{% url 'booking_list' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-success">Aprovar / Rejeitar</button>
+              </a>
+             
+            {% endif %}
+          </div>
+        </div>
+      {% empty %}
+        <p>Nenhuma reserva recebida.</p>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

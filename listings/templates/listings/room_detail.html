@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div  class="container-principal" style="padding-top: 100px;">
+  <h2>{{ room.title }}</h2>
+  {% if room.image %}
+    <img src="{{ room.image.url }}" alt="{{ room.nome }}">
+  {% else %}
+    <p>Esta sala não possui imagem cadastrada.</p>
+  {% endif %}
+
+  <p>{{ room.description }}</p>
+  <p>Preço por hora: R$ {{ room.price_per_hour }}</p>
+  <p>Disponível: {{ room.available|yesno:"Sim,Não" }}</p>
+
+  <!-- Botão de reserva só aparece se o usuário estiver logado -->
+  {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
+  <form method="post">
+    {% csrf_token %}
+    <label for="start_date">Data de início:</label>
+    <input type="datetime-local" id="start_date" name="start_date" required>
+
+    <label for="end_date">Data de término:</label>
+    <input type="datetime-local" id="end_date" name="end_date" required>
+
+    <button type="submit" class="btn">Reservar</button>
+  </form>
+{% else %}
+  <p><a href="{% url 'login' %}" class="btn">Faça login</a> para reservar esta sala.</p>
+{% endif %}
+
+  {% else %}
+    <p><a href="{% url 'login' %}"  class="btn">Faça login</a> para reservar esta sala.</p>
+  {% endif %}
+</div>
+{% endblock %}

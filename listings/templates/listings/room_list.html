@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+<div class="container-dashboard" style="padding-top: 100px;">
+  <h2>Salas Disponíveis</h2>
+<!-- 🔍 Filtro de busca -->
+  <form method="get" class="filter-form">
+    <input type="text" name="q" placeholder="Buscar por título..." value="{{ request.GET.q }}">
+    <input type="number" name="max_price" placeholder="Preço máximo" value="{{ request.GET.max_price }}">
+    <select name="available">
+      <option value="">-- Disponibilidade --</option>
+      <option value="true" {% if request.GET.available == 'true' %}selected{% endif %}>Disponível</option>
+      <option value="false" {% if request.GET.available == 'false' %}selected{% endif %}>Indisponível</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Filtrar</button>
+  </form>
+
+  <div class="card-grid">
+    {% for room in rooms %}
+      <div class="card-dsashboard">
+        {% if room.image %}
+          <img src="{{ room.image.url }}" alt="{{ room.title }}">
+        {% else %}
+          <img src="{% static 'img/default_room.jpg' %}" alt="Imagem padrão">
+        {% endif %}
+
+        <div class="card-body">
+          <h3>{{ room.title }}</h3>
+          <p>{{ room.description|truncatewords:20 }}</p>
+          <p><strong>Preço por hora:</strong> R$ {{ room.price_per_hour }}</p>
+          <p><strong>Disponível:</strong> {{ room.available|yesno:"Sim,Não" }}</p>
+          {% if room.is_reserved %}
+            <span class="status reserved">Reservada</span>
+          {% endif %}
+
+
+
+          <div class="card-actions">
+            <!-- Botões só para o dono -->
+            {% if room.owner == request.user %}
+              <a href="{% url 'edit_room' room.id %}" class="btn btn-warning btn-sm">Editar</a>
+              <a href="{% url 'delete_room' room.id %}" class="btn btn-danger btn-sm">Excluir</a>
+            {% endif %}
+            {% if room.owner != request.user %}
+            <!-- Botão de detalhes visível para todos -->
+              <a href="{% url 'room_detail' room.id %}" class="btn btn-primary btn-sm">Saber mais</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p>Nenhuma sala disponível no momento.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -5,14 +5,25 @@
     <ul>
       <li><a href="{% url 'home' %}">INÍCIO</a></li>
       <li><a href="{% url 'quem_somos' %}">A SPACEHUB</a></li>
-      <li><a href="#">SALAS COMERCIAIS</a></li>
+      <li><a href="{% url 'room_list' %}">SALAS COMERCIAIS</a></li>
       <li><a href="#">ESPAÇOS DE TRABALHO</a></li>
       <li><a href="{% url 'contato' %}">FALE CONOSCO</a></li>
     </ul>
-    <button class="login-button">
-      <a href="{% url 'login' %}">
-        <img src="{% static 'img/user-svg.svg' %}" alt=""/>LOGIN
-      </a>
-    </button>
+    {% if request.user.is_authenticated %}
+      <span style="color: orange;">Bem-vindo, {{ request.user.username }}! </span>
+      <ul>
+        <li><a href="{% url 'logout' %}" >Sair</a></li>
+        {# Dashboard se não estiver nela #}
+        {% if not is_dashboard %}
+          <li><a href="{% url 'dashboard' %}" >Dashboard</a></li>
+        {% endif %}
+      </ul>        
+    {% else %}
+      <button class="login-button">
+        <a href="{% url 'auth_page' %}">
+          <img src="{% static 'img/user-svg.svg' %}" alt=""/>LOGIN
+        </a>
+      </button>
+    {% endif %}
   </div>
 </header>

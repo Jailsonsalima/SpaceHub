@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/sucesso.css' %}">
+
+<div class="container-principal" style="padding-top: 150px; padding-bottom: 200px;">
+    <h1>Cadastro realizado com sucesso!</h1>
+    <p>Parabéns, sua conta foi criada na <strong>SpaceHub</strong>.</p>
+    <p>Agora você pode fazer login e começar a explorar todas as funcionalidades.</p>
+
+    <div class="actions">
+        <a href="{% url 'login' %}" class="btn btn-primary">Ir para Login</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Voltar para Home</a>
+    </div>
+</div>
+{% endblock %}
